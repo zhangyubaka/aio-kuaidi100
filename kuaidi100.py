@@ -33,6 +33,7 @@ async def autocomCode(postid: str) -> str:
 			jresp =  json.loads(await resp.text())
 			return jresp['auto'][0]['comCode']
  
+ 
 async def query(ptype: str, postid: str) -> str:
 	url = 'https://www.kuaidi100.com/query'
 	headers = {
@@ -57,12 +58,15 @@ async def query(ptype: str, postid: str) -> str:
 			jresp = json.loads(await resp.text())
 			return jresp['data']
 
+
 async def main(postids: list):
 	for postid in postids:
-		pprint(postid)
+		print('Get postid: '+postid)
 		ptype = await autocomCode(postid)
 		queryResult = await query(ptype,postid)
 		pprint(queryResult)
+		print('\n'*2)
+
 
 if __name__ == '__main__':
 	postid = input('Please enter the postal service number (sperate with comma): ')
