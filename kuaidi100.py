@@ -57,13 +57,17 @@ async def query(ptype: str, postid: str) -> str:
 			jresp = json.loads(await resp.text())
 			return jresp['data']
 
-async def main(postid):
-	ptype = await autocomCode(postid)
-	queryResult = await query(ptype,postid)
-	pprint(queryResult)
+async def main(postids: list):
+	for postid in postids:
+		pprint(postid)
+		ptype = await autocomCode(postid)
+		queryResult = await query(ptype,postid)
+		pprint(queryResult)
 
 if __name__ == '__main__':
-	postid = input('Please enter the postal service number: ')
+	postid = input('Please enter the postal service number (sperate with comma): ')
+	#pprint(postid)
+	postids = postid.split(',')
 	loop = asyncio.get_event_loop() # Get eventloop
-	loop.run_until_complete(main(postid))
+	loop.run_until_complete(main(postids))
 
