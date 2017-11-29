@@ -4,8 +4,8 @@ __author__ = "Feather Zhang"
 import asyncio
 import uvloop
 import aiohttp
-from pprint import pprint
-import json
+from pprint import pprint #for some pretty stuff
+import json # This is a hack.
 # Using libuv for eventloop
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
@@ -28,13 +28,13 @@ async def autocomCode(postid: str) -> str:
     'Content-Length': '0',
     'DNT': '1',
 	}
-	# The Parameters for request.
+	# The parameters for request.
 	data = (('resultv2','1'),('text', postid))
 
 
 	async with aiohttp.ClientSession(headers=headers) as session:
 		async with session.post(url=url,params=data) as resp:
-			# A dirty hack for JSON serialize. Bypass 'Type mismatch'
+			# A dirty hack for JSON serialize. Bypass 'Type mismatch'.
 			jResp =  json.loads(await resp.text())
 			return jResp['auto'][0]['comCode']
  
@@ -68,7 +68,7 @@ async def query(ptype: str, postid: str) -> str:
 
 
 async def main(postids: list):
-	# I don't have a container that supports __aiter__, so I have to use 'for', not 'async for'
+	# I don't have a container that supports __aiter__, so I have to use 'for', not 'async for'.
 	for postid in postids:
 		print('Get postid: '+postid)
 		# Avoids type keyword
