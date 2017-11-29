@@ -33,7 +33,7 @@ async def autocomCode(postid: str) -> str:
 
 
 	async with aiohttp.ClientSession(headers=headers) as session:
-		async with session.post(url=url,params=data) as resp:
+		async with session.post(url=url, params=data) as resp:
 			# A dirty hack for JSON serialize. Bypass 'Type mismatch'.
 			jResp =  json.loads(await resp.text())
 			return jResp['auto'][0]['comCode']
@@ -61,7 +61,7 @@ async def query(ptype: str, postid: str) -> str:
 
 
 	async with aiohttp.ClientSession(headers=headers) as session:
-		async with session.get(url=url,params=params) as resp:
+		async with session.get(url=url, params=params) as resp:
 			# Another dirty hack as usual.
 			jResp = json.loads(await resp.text())
 			return jResp['data']
@@ -70,10 +70,10 @@ async def query(ptype: str, postid: str) -> str:
 async def main(postids: list):
 	# I don't have a container that supports __aiter__, so I have to use 'for', not 'async for'.
 	for postid in postids:
-		print('Get postid: '+postid)
+		print('Get postid: ' + postid)
 		# Avoids type keyword
 		ptype = await autocomCode(postid)
-		queryResult = await query(ptype,postid)
+		queryResult = await query(ptype, postid)
 		pprint(queryResult)
 		print('\n'*2) # For better format
 
