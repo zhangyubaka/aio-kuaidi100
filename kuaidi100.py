@@ -29,11 +29,11 @@ async def autocomCode(postid: str) -> str:
     'DNT': '1',
 	}
 	# The parameters for request.
-	data = (('resultv2','1'),('text', postid))
+	params = (('resultv2','1'),('text', postid))
 
 
 	async with aiohttp.ClientSession(headers=headers) as session:
-		async with session.post(url=url, params=data) as resp:
+		async with session.post(url=url, params=params) as resp:
 			# A dirty hack for JSON serialize. Bypass 'Type mismatch'.
 			jResp =  json.loads(await resp.text())
 			return jResp['auto'][0]['comCode']
